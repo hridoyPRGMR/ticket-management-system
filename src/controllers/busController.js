@@ -4,7 +4,7 @@ const {validationError} = require("../utils/validationError");
 
 const addBus = async(req,res,next)=>{
 
-    const { busNumber, route, capacity } = req.body;
+    const { busNumber, route, status, capacity } = req.body;
 
     try{
         if(req.user.role !== "admin" ){
@@ -33,7 +33,7 @@ const addBus = async(req,res,next)=>{
 const updateBus = async(req,res,next)=>{
 
     const {id} = req.params;
-    const {busNumber,route,capacity} = req.body;
+    const {busNumber,route,status,capacity} = req.body;
 
     try{
 
@@ -49,8 +49,9 @@ const updateBus = async(req,res,next)=>{
 
         bus.busNumber = busNumber || bus.busNumber;
         bus.route = route || bus.route;
+        bus.status = typeof status === "boolean" ? status : bus.status;
         bus.capacity = capacity || bus.capacity;
-
+       
         await bus.save();
 
         res.status(200).json({success:true,message: "Bus updated successfuly.",bus})

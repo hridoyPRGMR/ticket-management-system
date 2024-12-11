@@ -20,6 +20,7 @@ const busSchema = new mongoose.Schema({
     }
   },
   capacity: { type: Number, required: true ,min:1},
+  status: {type:Boolean,default:true},
   createdAt:{type:Date,default:Date.now},
   updatedAt:{type:Date,default:Date.now}
 },

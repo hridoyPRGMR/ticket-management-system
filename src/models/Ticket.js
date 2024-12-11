@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const ticketSchema = new mongoose.Schema({
-  busId: { type: mongoose.Schema.Types.ObjectId, ref: "Bus", required: true,unique:true},
+  busId: { type: mongoose.Schema.Types.ObjectId, ref: "Bus", required: true},
   date: { type: Date, required: true },
   time: { type: String, required: true },
   price: { type: Number, required: true },

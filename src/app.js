@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const userRoutes = require("./routes/userRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const AppError = require("./utils/AppError");
 
@@ -13,6 +14,7 @@ connectDB();
 app.use(express.json());
 
 //routes
+app.use("/",userRoutes);
 app.use("/auth", authRoutes);
 app.use("/admin",adminRoutes);
 

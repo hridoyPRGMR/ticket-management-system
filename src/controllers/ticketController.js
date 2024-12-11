@@ -1,4 +1,5 @@
-const Ticket = require("../models/Ticket")
+const Ticket = require("../models/Ticket");
+const Bus = require("../models/Bus");
 const AppError = require("../utils/AppError");
 const {validationError} = require("../utils/validationError");
 
@@ -9,18 +10,18 @@ const addTicket = async (req, res, next) => {
     try {
 
         if(req.user.role !== "admin" ){
-            return next(new AppError("Not authorized for this action.",404));
+            return next(new AppError("Not authorized for this action.",401));
         }
 
-        const ticketExist = await Ticket.findOne({ busId });
-        if (ticketExist) {
-            return next(new AppError("Ticket for this bus already exist.",400));
+        const busExist = await Bus.findById(busId);
+        if(!busExist){
+            return next(new AppError("Bus not found.", 404));
         }
 
         const newTicket = new Ticket({ busId, date, time, price, availableSeats });
         await newTicket.save();
 
-        res.status(201).json({success:true,message: "Ticket added successfully.",ticket });
+        res.status(201).json({success:true,message: "Ticket added successfully.", newTicket });
     }
     catch (error) {
         if (validationError(error, res)) return;
@@ -36,7 +37,7 @@ const updateTicket = async (req, res, next) => {
     try {
 
         if(req.user.role !== "admin" ){
-            return next(new AppError("Not authorized for this action.",404));
+            return next(new AppError("Not authorized for this action.",401));
         }
 
         const ticket = await Ticket.findById(id);
@@ -64,7 +65,7 @@ const deleteTicket = async (req, res, next) => {
     try {
 
         if(req.user.role !== "admin" ){
-            return next(new AppError("Not authorized for this action.",404));
+            return next(new AppError("Not authorized for this action.",401));
         }
 
         const ticket = await Ticket.findById(id);

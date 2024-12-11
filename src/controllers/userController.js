@@ -3,6 +3,7 @@ const User = require("../models/User");
 const { generateToken } = require("../utils/jwt");
 const AppError = require("../utils/AppError");
 const {validationError} = require("../utils/validationError");
+const { getBuses, getTicket, purchaseTicket } = require("../services/userService");
 
 //register user
 const register = async (req, res, error) => {
@@ -66,39 +67,48 @@ const login = async (req, res, next) => {
 };
 
 
-// Get all users
-const getAllUsers = async (req, res) => {
+//user functionality
+const getPaginatedBuses = async (req,res,next) =>{
+
+  const {page = 1, limit=10} = req.query;
+
+  try{
+    const buses = await getBuses(parseInt(page),parseInt(limit));
+    res.status(200).json(buses);
+  }
+  catch(error){
+    next(error);
+  }
+} 
+
+
+const getTickets  = async(req, res, next)=>{
+
+  const {busId,date} = req.query;
+
+  try{
+    const tickets = await getTicket(busId,date);
+    res.status(200).json(tickets);
+  }
+  catch(error){
+    next(error);
+  }
+
+}
+
+const purchaseTickets = async (req, res, next) => {
   try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+      const result = await purchaseTicket(req.body);
+
+      res.status(201).json({
+          success: true,
+          message: "Ticket(s) purchased successfully.",
+          purchase: result,
+      });
+  } 
+  catch (error) {
+      next(error); 
   }
 };
 
-// Update user
-const updateUser = async (req, res) => {
-  const { id } = req.params;
-  const { name, email, role } = req.body;
-  try {
-    const user = await User.findByIdAndUpdate(id, { name, email, role, updated_at: Date.now() }, { new: true });
-    if (!user) return res.status(404).json({ message: "User not found" });
-    res.json(user);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-};
-
-// Delete user
-const deleteUser = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const user = await User.findByIdAndDelete(id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-    res.status(204).send();
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-module.exports = { register, login, getAllUsers, updateUser, deleteUser };
+module.exports = { register, login, getPaginatedBuses, getTickets, purchaseTickets };
