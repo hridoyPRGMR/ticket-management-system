@@ -3,29 +3,20 @@ const User = require("../models/User");
 const { generateToken } = require("../utils/jwt");
 const AppError = require("../utils/AppError");
 const {validationError} = require("../utils/validationError");
-const { getBuses, getTicket, purchaseTicket } = require("../services/userService");
+const { getBuses, getTicket, purchaseTicket, saveUser } = require("../services/userService");
 
 //register user
-const register = async (req, res, error) => {
-  const { name, email, password } = req.body;
-
+const register = async (req, res, next) => {
+  
   try {
-    const userExists = await User.findOne({ email });
-
-    if (userExists) {
-      return next(new AppError("User already exists",400));
-    }
-
-    const user = new User({ name, email, password });
-    await user.save();
-
+    const user = await saveUser(req);
     const token = generateToken(user._id, user.role);
 
     res.status(201).json({
       success:true,
       message: "User registered successfully",
       token,
-      user: { id: user._id, name: user.name, email: user.email, role: user.role },
+      user,
     });
   } 
   catch (error) {

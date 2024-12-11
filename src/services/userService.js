@@ -3,13 +3,35 @@ const Bus = require("../models/Bus");
 const Purchase = require("../models/Purchase");
 const Ticket = require("../models/Ticket");
 const AppError = require("../utils/AppError");
+const User = require("../models/User");
+
+const saveUser = async (req) => {
+
+    const { name, email, password } = req.body;
+
+    try {
+        const userExists = await User.findOne({ email });
+
+        if (userExists) {
+            throw new AppError("User already exists", 400);
+        }
+
+        const user = new User({ name, email, password });
+        await user.save();
+
+        return user;
+    }
+    catch (error) {
+        throw error;
+    }
+}
 
 const getBuses = async (page = 1, limit = 10) => {
 
     try {
         const skip = (page - 1) * limit;
 
-        const buses = await Bus.find({status:true})
+        const buses = await Bus.find({ status: true })
             .select("busNumber route capacity")
             .skip(skip)
             .limit(limit);
@@ -56,8 +78,8 @@ const getTicket = async (busId, date) => {
         }
 
         const tickets = await Ticket.find(query)
-                                    .select("_id busId date time price availableSeats")
-                                    .sort({ date: -1 });
+            .select("_id busId date time price availableSeats")
+            .sort({ date: -1 });
 
         if (!tickets.length) {
             throw new AppError("No tickets found for the specified bus", 404);
@@ -67,7 +89,7 @@ const getTicket = async (busId, date) => {
             success: true,
             tickets,
         };
-    } 
+    }
     catch (error) {
         throw error;
     }
@@ -97,7 +119,7 @@ const purchaseTicket = async ({ busId, ticketId, userId, quantity }) => {
             busId,
             ticketId,
             userId,
-            ticketPrice:ticket.price,
+            ticketPrice: ticket.price,
             quantity,
             totalPrice,
         });
@@ -108,7 +130,7 @@ const purchaseTicket = async ({ busId, ticketId, userId, quantity }) => {
         session.endSession();
 
         return purchase;
-    } 
+    }
     catch (error) {
         await session.abortTransaction();
         session.endSession();
@@ -117,4 +139,4 @@ const purchaseTicket = async ({ busId, ticketId, userId, quantity }) => {
 };
 
 
-module.exports = { getBuses, getTicket, purchaseTicket}
+module.exports = { saveUser, getBuses, getTicket, purchaseTicket }
