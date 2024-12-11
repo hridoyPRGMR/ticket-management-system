@@ -40,6 +40,11 @@ const editBus = async (id,req)=>{
             throw new AppError("Bus not found.",404);
         }
 
+        const existBus = await Bus.findOne({ busNumber });
+        if (existBus && !existBus._id.equals(bus._id)) {
+            throw new AppError("Bus with this number already exists.", 400);
+        }
+
         bus.busNumber = busNumber || bus.busNumber;
         bus.route = route || bus.route;
         bus.status = typeof status === "boolean" ? status : bus.status;

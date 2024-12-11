@@ -3,13 +3,43 @@ const bcrypt = require("bcryptjs");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  name: { 
+    type: String, 
+    required: true ,
+    minlength: [2,"Name cannot be less than 2 charcater."],
+    maxlength:[50,"Name cannot exceed 50 character."]
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    maxlength:[50,"Email cannot exceed 50 character."],
+    validate: {
+      validator: function (value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //no space, has and @symbol,ends with .com/.org
+        return emailRegex.test(value);
+      },
+      message: (props) => `${props.value} is not a valid email address.`,
+    },
+  },
+  password: {
+    type: String,
+    required: true,
+    maxlength:[50,"Password cannot exceed 50 character."],
+    validate: {
+      validator: function (value) {
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/; //at least 8 characters, one uppercase, one lowercase, and one number
+        return passwordRegex.test(value);
+      },
+      message: (props) =>
+        `Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.`,
+    }
+  },
   role: { type: String, enum: ["admin", "user"], default: "user" },
-  created_at: { type: Date, immutable: true, default: Date.now },
-  updated_at: { type: Date, default: Date.now }
-});
+},{
+  timestamps:true,
+}
+);
 
 
 // hash password before saving
