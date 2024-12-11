@@ -1,39 +1,36 @@
 const Bus = require("../models/Bus");
+const AppError = require("../utils/AppError");
+const {validationError} = require("../utils/validationError");
 
-const addBus = async(req,res)=>{
+const addBus = async(req,res,next)=>{
 
     const { busNumber, route, capacity } = req.body;
 
     try{
         if(req.user.role !== "admin" ){
-            return res.status(403).json({message:"Not authorized for this action."})
+            return next(new AppError("Not authorized for this action.",404));
         }
 
         const busExist = await Bus.findOne({busNumber});
 
         if(busExist){
-            return res.status(400).json({message:"Bus with this number already exist."});
+            return next(new AppError("Bus with this number already exist.",400));
         }
 
         const newBus = new Bus({busNumber,route,capacity});
 
         await newBus.save();
 
-        res.status(201).json({message:"Bus added successfully.",bus:newBus});
+        res.status(201).json({success:true,message:"Bus added successfully.",bus:newBus});
     }
     catch(error){
-
-        if(error.name==="ValidationError"){
-            const errors = Object.values(error.errors).map((err)=>err.message);
-            return res.status(400).json({message:"Validation error.",errors});
-        }
-
-        res.status(500).json({error:"Server Erro. Please try again later"});
+        if (validationError(error, res)) return;
+        next(error);
     }
 
 }
 
-const updateBus = async(req,res)=>{
+const updateBus = async(req,res,next)=>{
 
     const {id} = req.params;
     const {busNumber,route,capacity} = req.body;
@@ -41,13 +38,13 @@ const updateBus = async(req,res)=>{
     try{
 
         if(req.user.role !== "admin"){
-            return res.status(403).json({message:"Not authorized for this action."});
+            return next(new AppError("Not authorized for this action.",404));
         }
 
         const bus = await Bus.findById(id);
 
         if(!bus){
-            return res.status(404).json({ message: "Bus not found." });
+            return next(new AppError("Bus not found.",404));
         }
 
         bus.busNumber = busNumber || bus.busNumber;
@@ -56,31 +53,37 @@ const updateBus = async(req,res)=>{
 
         await bus.save();
 
-        res.status(200).json({message: "Bus updated successfuly.",bus})
+        res.status(200).json({success:true,message: "Bus updated successfuly.",bus})
     }
     catch(error){
-        res.status(500).json({message:"Server Error. Please try agin later."});
+        if (validationError(error, res)) return;
+        next(error);
     }
 
 }
 
-const deleteBus = async (req,res) =>{
+const deleteBus = async (req,res,next) =>{
 
     const {id} = req.params;
 
     try{
+
+        if(req.user.role !== "admin"){
+            return next(new AppError("Not authorized for this action.",404));
+        }
+
         const bus = await Bus.findById(id);
 
         if(!bus){
-            return res.status(404).json({ message: "Bus not found." });
+            return next(new AppError("Bus not found.",404));
         }
 
         await bus.deleteOne();
 
-        res.status(200).json({message: "Bus deleted successfully."})
+        res.status(200).json({success:true,message: "Bus deleted successfully."})
     }   
     catch(error){
-        res.status(500).json({message:"Server Error. Please try again later"});
+        next(error);
     }
 
 }

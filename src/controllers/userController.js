@@ -1,16 +1,18 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const { generateToken } = require("../utils/jwt");
+const AppError = require("../utils/AppError");
+const {validationError} = require("../utils/validationError");
 
 //register user
-const register = async (req, res) => {
+const register = async (req, res, error) => {
   const { name, email, password } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      return res.status(400).json({ error: "User already exists" });
+      return next(new AppError("User already exists",400));
     }
 
     const user = new User({ name, email, password });
@@ -19,19 +21,21 @@ const register = async (req, res) => {
     const token = generateToken(user._id, user.role);
 
     res.status(201).json({
+      success:true,
       message: "User registered successfully",
       token,
       user: { id: user._id, name: user.name, email: user.email, role: user.role },
     });
   } 
   catch (error) {
-    res.status(400).json({ error: error.message });
+    if (validationError(error, res)) return;
+    next(error);
   }
 };
 
 
 // Login user
-const login = async (req, res) => {
+const login = async (req, res, next) => {
 
   const { email, password } = req.body;
 
@@ -39,23 +43,25 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
     
     if (!user) {
-      return res.status(400).json({ error: "Invalid email or password" });
+      return next(new AppError("Invalid email or password", 400));
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return next(new AppError("Invalid email or password", 401));
     }
 
     const token = generateToken(user._id, user.role);
     res.json({
+      success:true,
       message: "Login successful",
       token,
       user: { id: user._id, name: user.name, email: user.email, role: user.role },
     });
   } 
-  catch (err) {
-    res.status(500).json({ error: err.message ||"Server error. Please try again later." });
+  catch (error) {
+    if (validationError(error, res)) return;
+    next(error);
   }
 };
 
