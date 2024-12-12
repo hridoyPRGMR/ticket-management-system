@@ -1,0 +1,2245 @@
+{
+	"info": {
+		"_postman_id": "409904bf-6c78-4c6c-b012-544866c59e44",
+		"name": "ticket-management",
+		"description": "A comprehensive ticket management system where users can register, log in, view available buses, and purchase tickets. Admins have enhanced capabilities to manage buses, tickets, and system data.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40331456"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Jo\",\r\n  \"email\": \"john9.doe@example.com\",\r\n  \"password\": \"Password1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "name - Required,At Least 2 character. Maximum 50 character.\n\nemail - Must be in valid format.\n\npassword - At least 8 character and Maximum 50character. Password should contain minimum 1 uppercase,1 lowercase and 1 digit"
+					},
+					"response": [
+						{
+							"name": "Bad Request - user exist",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john3.doe@example.com\",\r\n  \"password\": \"password\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/auth/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "66"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"42-yN4wWnBxbZx+f8nPyuz0nNfB6vc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 18:11:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"statusCode\": 400,\n    \"message\": \"User already exists\"\n}"
+						},
+						{
+							"name": "Validation Error -password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john8.doe@example.com\",\r\n  \"password\": \"passw\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "185"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b9-62Ohy987Dj5MbWRWA4GmY+n6YNc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 18:23:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Validation Error.\",\n    \"errors\": [\n        \"Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one number.\"\n    ]\n}"
+						},
+						{
+							"name": "Validation Error -email",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john8doeexample.com\",\r\n  \"password\": \"Password1\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "110"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6e-JXCuckeWnWVctOOyDq4sPYzoiYw\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 18:25:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Validation Error.\",\n    \"errors\": [\n        \"john8doeexample.com is not a valid email address.\"\n    ]\n}"
+						},
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"john8.doe@example.com\",\r\n  \"password\": \"Password1\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "529"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"211-gOANiiZTgn1+kS5eGHWISJN9ru8\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 18:25:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"User registered successfully\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU5ZDkyNWY1ZWE4OWFjNjdlZTRhNWIiLCJyb2xlIjoidXNlciIsImlhdCI6MTczMzk0MTU0MSwiZXhwIjoxNzM0NTQ2MzQxfQ.bJqZvmk3c3vQyJQp1-9AepFc-VG9s6Rd1Xd_1KtaRWM\",\n    \"user\": {\n        \"name\": \"John Doe\",\n        \"email\": \"john8.doe@example.com\",\n        \"password\": \"$2a$10$9wEhdHMvANEdVax/WCuseuaWqjHjBLaZ7v9ucrwvB/WKw.dozP/4K\",\n        \"role\": \"user\",\n        \"_id\": \"6759d925f5ea89ac67ee4a5b\",\n        \"createdAt\": \"2024-12-11T18:25:41.698Z\",\n        \"updatedAt\": \"2024-12-11T18:25:41.698Z\",\n        \"__v\": 0\n    }\n}"
+						},
+						{
+							"name": "Validation Error -name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Jo\",\r\n  \"email\": \"john9.doe@example.com\",\r\n  \"password\": \"Password1\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "98"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"62-+Xu5oISjSd+1nTRfbGLoqCxGmwA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 18:34:00 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Validation Error.\",\n    \"errors\": [\n        \"Name cannot be less than 2 charcater.\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john8.doe@example.com\",\r\n  \"password\": \"Password1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"john2.doe@example.com\",\r\n  \"password\": \"password\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "341"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"155-HUQ4zVw3no8pPo2ppZXPDH9CaAM\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 10 Dec 2024 13:03:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Login successful\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4M2FlNzA1ZDk0NTgyMWY0MDdmOTYiLCJyb2xlIjoidXNlciIsImlhdCI6MTczMzgzNTgzMywiZXhwIjoxNzM0NDQwNjMzfQ.3QPsg7bjoh0JGK5O3_zMdQBII8nHthT9XC30p1l4DZ4\",\n    \"user\": {\n        \"id\": \"67583ae705d945821f407f96\",\n        \"name\": \"John Doe\",\n        \"email\": \"john2.doe@example.com\",\n        \"role\": \"user\"\n    }\n}"
+						},
+						{
+							"name": "Invalid Credentials",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"john3.doe@example.com\",\r\n  \"password\": \"passwor\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "72"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"48-8iVzCl0GT7++3zbxITVo3Iy25Vg\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 12:13:00 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"statusCode\": 401,\n    \"message\": \"Invalid email or password\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM4NDA1MDAsImV4cCI6MTczNDQ0NTMwMH0.Jdx9L1BGvlGea4iWZSe580ltpgEc-p5YumLWyuoSReU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						},
+						"description": "This API endpoint is designed to log out a currently authenticated user. Upon successful logout, the user's session token (JWT) is cleared from the client-side, effectively ending the session."
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/auth/logout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "jwtToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Secure; SameSite=Strict"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"34-RTw5tHxjaaqEcEVbesn1aQCzRls\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Dec 2024 04:57:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Logged out successfully\"\n}"
+						}
+					]
+				}
+			],
+			"description": "\\- User registration, login, and logout.\n\n\\- Secure password hashing and JWT-based authentication.\n\n\\- Role-based authorization for Admin and User roles."
+		},
+		{
+			"name": "Admin Api's",
+			"item": [
+				{
+					"name": "Bus",
+					"item": [
+						{
+							"name": "Create Bus",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM5NDIxODksImV4cCI6MTczNDU0Njk4OX0.Me6Ll4M906Ym0B_lueqOG8DiQTUPIJPsVohKGwXxW3w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"busNumber\": \"AB123z\",\r\n  \"route\": { \"from\": \"Dhaka\", \"to\": \"Mumbai\" },\r\n  \"status\": true,\r\n  \"capacity\": 60\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/bus",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"bus"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Validation Error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busNumber\": \"AB123gsjdhfgjsdhfbnxc vghsfsjbcxnbvsgfyg ygedgfshdvfhsgfdhgsdv\",\r\n  \"route\": { \"from\": \"New York\", \"to\": \"Boston\" },\r\n  \"capacity\": 60\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/admin/bus",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"bus"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "99"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"63-SxZ7zniPZvS4wsgyGj4sb0dwnfs\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 05:25:03 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"message\": \"Validation Error.\",\n    \"errors\": [\n        \"Bus-Number cannot exceed 50 character.\"\n    ]\n}"
+								},
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busNumber\": \"AB12y3\",\r\n  \"route\": { \"from\": \"New York\", \"to\": \"Boston\" },\r\n  \"status\": 1,\r\n  \"capacity\": 60\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/admin/bus",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"bus"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "270"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"10e-pYailZ+y5TSHeVN2/Q54e83ivx8\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 07:34:51 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Bus added successfully.\",\n    \"bus\": {\n        \"busNumber\": \"AB12y3\",\n        \"route\": {\n            \"from\": \"New York\",\n            \"to\": \"Boston\"\n        },\n        \"capacity\": 60,\n        \"status\": true,\n        \"_id\": \"6759409bbb5e2480b2d00aa0\",\n        \"createdAt\": \"2024-12-11T07:34:51.830Z\",\n        \"updatedAt\": \"2024-12-11T07:34:51.830Z\",\n        \"__v\": 0\n    }\n}"
+								},
+								{
+									"name": "Bad Request -bus exist",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busNumber\": \"AB123u\",\r\n  \"route\": { \"from\": \"New York\", \"to\": \"Boston\" },\r\n  \"status\": true,\r\n  \"capacity\": 60\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/bus",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"bus"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "82"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"52-gE15jGaLaU7kb+R3L+sVCRC0S3o\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 18:37:10 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"statusCode\": 400,\n    \"message\": \"Bus with this number already exist.\"\n}"
+								},
+								{
+									"name": "Create Bus",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busNumber\": \"AB123p\",\r\n  \"route\": { \"from\": \"Dhaka\", \"to\": \"Mumbai\" },\r\n  \"status\": true,\r\n  \"capacity\": 60\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/bus",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"bus"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "42"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2a-Srzaw01J1MSkTStpZumRIHJGaRs\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 18:38:11 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Not authorized, token failed\"\n}"
+								},
+								{
+									"name": "Not Authorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busNumber\": \"AB123p\",\r\n  \"route\": { \"from\": \"Dhaka\", \"to\": \"Mumbai\" },\r\n  \"status\": true,\r\n  \"capacity\": 60\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/bus",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"bus"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "58"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3a-5PTwx7qdMpLxbWdUn1G6PGcIGck\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 18:39:40 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"message\": \"Not authorized, token failed\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Bus",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM4NDA1MDAsImV4cCI6MTczNDQ0NTMwMH0.Jdx9L1BGvlGea4iWZSe580ltpgEc-p5YumLWyuoSReU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"busNumber\": \"AB123p\",\r\n  \"route\": { \"from\": \"New Yorker\", \"to\": \"Boston\" },\r\n  \"status\": true,\r\n  \"capacity\": 60\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/bus/6759dc8a1b1d6c622899e5a4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"bus",
+										"6759dc8a1b1d6c622899e5a4"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "",
+											"disabled": true
+										}
+									]
+								},
+								"description": "**Parameter:** `{`6759dc8a1b1d6c622899e5a4`}`: The unique identifier of the bus to be updated"
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busNumber\": \"AB123q\",\r\n  \"route\": { \"from\": \"New Yorker\", \"to\": \"Boston\" },\r\n  \"status\": false,\r\n  \"capacity\": 9\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/admin/bus/6759dc8a1b1d6c622899e5a4",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"bus",
+												"6759dc8a1b1d6c622899e5a4"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "273"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"111-dsM1w4PS7JtMJxCvdX/jK7MXs3Y\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 18:41:31 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Bus updated successfuly.\",\n    \"bus\": {\n        \"route\": {\n            \"from\": \"New Yorker\",\n            \"to\": \"Boston\"\n        },\n        \"_id\": \"6759dc8a1b1d6c622899e5a4\",\n        \"busNumber\": \"AB123q\",\n        \"capacity\": 9,\n        \"status\": false,\n        \"createdAt\": \"2024-12-11T18:40:10.739Z\",\n        \"updatedAt\": \"2024-12-11T18:40:10.739Z\",\n        \"__v\": 0\n    }\n}"
+								},
+								{
+									"name": "Error -duplicate bus number",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busNumber\": \"AB123z\",\r\n  \"route\": { \"from\": \"New Yorker\", \"to\": \"Boston\" },\r\n  \"status\": true,\r\n  \"capacity\": 6\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/bus/6759dc8a1b1d6c622899e5a4",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"bus",
+												"6759dc8a1b1d6c622899e5a4"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "83"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"53-99LGHZBgkPIxNk2Iz7ttAgQN7+8\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 18:57:59 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"statusCode\": 400,\n    \"message\": \"Bus with this number already exists.\"\n}"
+								},
+								{
+									"name": "Not Authorized",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busNumber\": \"AB123p\",\r\n  \"route\": { \"from\": \"New Yorker\", \"to\": \"Boston\" },\r\n  \"status\": true,\r\n  \"capacity\": 60\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/admin/bus/6759dc8a1b1d6c622899e5a4",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"bus",
+												"6759dc8a1b1d6c622899e5a4"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "58"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3a-5PTwx7qdMpLxbWdUn1G6PGcIGck\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 19:00:17 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"message\": \"Not authorized, token failed\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Bus",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM4NDA1MDAsImV4cCI6MTczNDQ0NTMwMH0.Jdx9L1BGvlGea4iWZSe580ltpgEc-p5YumLWyuoSReU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/admin/bus/6759dc8a1b1d6c622899e5a4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"bus",
+										"6759dc8a1b1d6c622899e5a4"
+									]
+								},
+								"description": "{6759dc8a1b1d6c622899e5a4} ->**Parameter:** `{busId}`: The unique identifier of the bus to be deleted"
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/admin/bus/6759dc8a1b1d6c622899e5a4",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"bus",
+												"6759dc8a1b1d6c622899e5a4"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "54"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"36-HBaKTtb1uIOtREUPNzxKpheOSPs\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 19:01:47 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Bus deleted successfully.\"\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/admin/bus/6759dc8a1b1d6c622899e5a4",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"admin",
+												"bus",
+												"6759dc8a1b1d6c622899e5a4"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "61"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3d-Q8rToaMY00ThCbULVcaZ307IydY\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 19:02:02 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"statusCode\": 404,\n    \"message\": \"Bus not found.\"\n}"
+								}
+							]
+						}
+					],
+					"description": "**busNumber**: A unique string identifier for the bus, with a maximum length of 50 characters.  \n**route**: object containing two required string fields:\n\nfrom: The starting point of the route, with a maximum length of 50 characters.  \nto: The destination of the route, with a maximum length of 50 characters.\n\n**status**: A boolean flag indicating whether the bus is active or inactive, defaulting to true.  \n**capacity**: The maximum number of passengers the bus can accommodate, with a minimum value of 1"
+				},
+				{
+					"name": "Ticket",
+					"item": [
+						{
+							"name": "Create Ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM4NDA1MDAsImV4cCI6MTczNDQ0NTMwMH0.Jdx9L1BGvlGea4iWZSe580ltpgEc-p5YumLWyuoSReU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"busId\": \"6759409bbb5e2480b2d00aa0\",  \r\n  \"date\": \"2024-12-15T00:00:00.000Z\",\r\n  \"time\": \"6:00 PM\", \r\n  \"price\": 20.5, \r\n  \"availableSeats\": 30\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/ticket",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"ticket"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Not Authorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busId\": \"67586eec7c097266a0c813ac\",  \r\n  \"date\": \"2024-12-15T00:00:00.000Z\",\r\n  \"time\": \"2:00 PM\", \r\n  \"price\": 20.5, \r\n  \"availableSeats\": 30\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/admin/ticket",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"ticket"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "38"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"26-Thj6zqYdlSIGX4o0BAJmYsb0w18\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 10 Dec 2024 17:47:36 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Not authorized, no token\"\n}"
+								},
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"busId\": \"6759409bbb5e2480b2d00aa0\",  \r\n  \"date\": \"2024-12-15T00:00:00.000Z\",\r\n  \"time\": \"2:00 PM\", \r\n  \"price\": 20.5, \r\n  \"availableSeats\": 30\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/admin/ticket",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"ticket"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "307"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"133-xWzRja+1BnzcBOTBC51kCmmw2ow\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 08:08:29 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Ticket added successfully.\",\n    \"newTicket\": {\n        \"busId\": \"6759409bbb5e2480b2d00aa0\",\n        \"date\": \"2024-12-15T00:00:00.000Z\",\n        \"time\": \"2:00 PM\",\n        \"price\": 20.5,\n        \"availableSeats\": 30,\n        \"_id\": \"6759487dfe4d4f9dda732ec3\",\n        \"createdAt\": \"2024-12-11T08:08:29.832Z\",\n        \"updatedAt\": \"2024-12-11T08:08:29.832Z\",\n        \"__v\": 0\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM4NDA1MDAsImV4cCI6MTczNDQ0NTMwMH0.Jdx9L1BGvlGea4iWZSe580ltpgEc-p5YumLWyuoSReU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"date\": \"2024-12-15\",\r\n  \"time\": \"3:00 PM\", \r\n  \"price\": 20.5, \r\n  \"availableSeats\": 20\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/ticket/6759487dfe4d4f9dda732ec3",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"ticket",
+										"6759487dfe4d4f9dda732ec3"
+									]
+								},
+								"description": "{6759487dfe4d4f9dda732ec3} ->**Parameter:** `{ticketId}`: The unique identifier of the ticket to be updated"
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"2024-12-15T00:00:00.000Z\",\r\n  \"time\": \"3:00 PM\", \r\n  \"price\": 20.5, \r\n  \"availableSeats\": 20\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/admin/ticket/67587f08eb1835ccef6b1bda",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"ticket",
+												"67587f08eb1835ccef6b1bda"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "291"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"123-IWEiAOyhmNm1WSSsMVEfO5TANK8\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 10 Dec 2024 18:05:43 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Ticket updated successfully.\",\n    \"ticket\": {\n        \"_id\": \"67587f08eb1835ccef6b1bda\",\n        \"busId\": \"67586eec7c097266a0c813ac\",\n        \"date\": \"2024-12-15T00:00:00.000Z\",\n        \"time\": \"3:00 PM\",\n        \"price\": 20.5,\n        \"availableSeats\": 20,\n        \"createdAt\": \"2024-12-10T17:48:56.824Z\",\n        \"updatedAt\": \"2024-12-10T18:05:43.014Z\",\n        \"__v\": 0\n    }\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"date\": \"2024-12-15T00:00:00.000Z\",\r\n  \"time\": \"3:00 PM\", \r\n  \"price\": 20.5, \r\n  \"availableSeats\": 20\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:5000/admin/ticket/6759471abc3f3d88b4d96b0b",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"ticket",
+												"6759471abc3f3d88b4d96b0b"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "64"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"40-bh8Zd6jsNQBoN0Z/WyJ56kwFZx0\""
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 11 Dec 2024 08:09:22 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": false,\n    \"statusCode\": 404,\n    \"message\": \"Ticket not found.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM4NDA1MDAsImV4cCI6MTczNDQ0NTMwMH0.Jdx9L1BGvlGea4iWZSe580ltpgEc-p5YumLWyuoSReU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/admin/ticket/6759471abc3f3d88b4d96b0b",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"ticket",
+										"6759471abc3f3d88b4d96b0b"
+									]
+								},
+								"description": "{6759471abc3f3d88b4d96b0b} ->**Parameter:** `{ticketId}`: The unique identifier of the ticket to be deleted"
+							},
+							"response": [
+								{
+									"name": "success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/admin/ticket/67587f08eb1835ccef6b1bda",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"admin",
+												"ticket",
+												"67587f08eb1835ccef6b1bda"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "42"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"2a-EHsRHSMhZN/7N3pVr/RnixvHf28\""
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 10 Dec 2024 18:11:31 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Ticket deleted successfully.\"\n}"
+								}
+							]
+						}
+					],
+					"description": "**busId**: A foreign key referencing a specific bus in the database.  \n**date**: The date of the bus journey.  \n**time**: The departure time of the bus. example: \"02:30 pm\"  \n**price**: The ticket price.  \n**availableSeats**: The number of available seats for the ticket.  \nEndFragment"
+				}
+			],
+			"description": "Only User with role \"admin\" are allowed."
+		},
+		{
+			"name": "User Api's",
+			"item": [
+				{
+					"name": "Get Buses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM4NDA1MDAsImV4cCI6MTczNDQ0NTMwMH0.Jdx9L1BGvlGea4iWZSe580ltpgEc-p5YumLWyuoSReU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/buses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"buses"
+							]
+						},
+						"description": "Return All active Bus"
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/buses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"buses"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "420"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a4-6UuvZ+ES4CoviKEK8F1l78aDeDw\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 07:02:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"buses\": [\n        {\n            \"route\": {\n                \"from\": \"New York\",\n                \"to\": \"Boston\"\n            },\n            \"_id\": \"67586eec7c097266a0c813ac\",\n            \"busNumber\": \"AB124\",\n            \"capacity\": 60\n        },\n        {\n            \"route\": {\n                \"from\": \"New York\",\n                \"to\": \"Boston\"\n            },\n            \"_id\": \"675883e3f3b821501dcc0bc4\",\n            \"busNumber\": \"AB123\",\n            \"capacity\": 60\n        },\n        {\n            \"route\": {\n                \"from\": \"New York\",\n                \"to\": \"Boston\"\n            },\n            \"_id\": \"675923ac513b57681088084a\",\n            \"busNumber\": \"AB12y3\",\n            \"capacity\": 60\n        }\n    ],\n    \"pagination\": {\n        \"total\": 3,\n        \"page\": 1,\n        \"limit\": 10,\n        \"totalPages\": 1\n    }\n}"
+						},
+						{
+							"name": "Not Authorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/buses",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"buses"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "58"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3a-5PTwx7qdMpLxbWdUn1G6PGcIGck\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 19:03:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"Not authorized, token failed\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Tickets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM4NDA1MDAsImV4cCI6MTczNDQ0NTMwMH0.Jdx9L1BGvlGea4iWZSe580ltpgEc-p5YumLWyuoSReU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/tickets?busId=6759409bbb5e2480b2d00aa0&date =15/12/2024",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tickets"
+							],
+							"query": [
+								{
+									"key": "busId",
+									"value": "6759409bbb5e2480b2d00aa0",
+									"description": "required"
+								},
+								{
+									"key": "date ",
+									"value": "15/12/2024",
+									"description": "dd/mm/yyyy ,optional fields"
+								}
+							]
+						},
+						"description": "User Get tickets for specific bus, user can also select a date for get a ticket on that specific date."
+					},
+					"response": [
+						{
+							"name": "sucess",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/tickets?busId=6759409bbb5e2480b2d00aa0&date=15/12/2024",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"tickets"
+									],
+									"query": [
+										{
+											"key": "busId",
+											"value": "6759409bbb5e2480b2d00aa0"
+										},
+										{
+											"key": "date",
+											"value": "15/12/2024",
+											"description": "dd/mm/yyyy"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "182"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"b6-vMnZ6TbV3IdHsFjeK/bQdGzSby8\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 09:22:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"tickets\": [\n        {\n            \"_id\": \"67595899df4d6dda7672d9c9\",\n            \"busId\": \"6759409bbb5e2480b2d00aa0\",\n            \"date\": \"2024-12-15T00:00:00.000Z\",\n            \"time\": \"6:00 PM\",\n            \"price\": 20.5,\n            \"availableSeats\": 30\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Purchase Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzU4NGNkYmVlNmYxNzAwNzMxYjJlM2MiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzM4NDA1MDAsImV4cCI6MTczNDQ0NTMwMH0.Jdx9L1BGvlGea4iWZSe580ltpgEc-p5YumLWyuoSReU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"busId\": \"6759409bbb5e2480b2d00aa0\",\r\n    \"ticketId\": \"67595899df4d6dda7672d9c9\",\r\n    \"userId\": \"67584cdbee6f1700731b2e3c\",\r\n    \"quantity\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/tickets/purchase",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"tickets",
+								"purchase"
+							]
+						},
+						"description": "User chooses bus,ticket and quantity and finally purchase the ticket\n\nNote: Qunatity must be less than or equal available ticket for specific bus"
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"busId\": \"6759409bbb5e2480b2d00aa0\",\r\n    \"ticketId\": \"67595899df4d6dda7672d9c9\",\r\n    \"userId\": \"67584cdbee6f1700731b2e3c\",\r\n    \"quantity\": 2\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/tickets/purchase",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"tickets",
+										"purchase"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "351"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"15f-qIZZOPLc3co3RSxJgDfrwshDM0s\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 10:46:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Ticket(s) purchased successfully.\",\n    \"purchase\": {\n        \"busId\": \"6759409bbb5e2480b2d00aa0\",\n        \"ticketId\": \"67595899df4d6dda7672d9c9\",\n        \"userId\": \"67584cdbee6f1700731b2e3c\",\n        \"ticketPrice\": 20.5,\n        \"quantity\": 2,\n        \"totalPrice\": 41,\n        \"_id\": \"67596d73fa3c963c0a707adf\",\n        \"createdAt\": \"2024-12-11T10:46:11.261Z\",\n        \"updatedAt\": \"2024-12-11T10:46:11.261Z\",\n        \"__v\": 0\n    }\n}"
+						},
+						{
+							"name": "Not Enough Ticket Available",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"busId\": \"6759409bbb5e2480b2d00aa0\",\r\n    \"ticketId\": \"67595899df4d6dda7672d9c9\",\r\n    \"userId\": \"67584cdbee6f1700731b2e3c\",\r\n    \"quantity\": 100\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/tickets/purchase",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"tickets",
+										"purchase"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"66-wEBt+jFZy4QCR71vnMtBvZfiRxw\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 10:46:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"statusCode\": 400,\n    \"message\": \"Not enough tickets available for the selected quantity.\"\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"busId\": \"6759409bbb5e2480b2d00aa0\",\r\n    \"ticketId\": \"67595899df4d6dda7672d9c8\",\r\n    \"userId\": \"67584cdbee6f1700731b2e3c\",\r\n    \"quantity\": 100\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/tickets/purchase",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"tickets",
+										"purchase"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "104"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"68-fqzf7cwDg9OcrSlPZ2jNf/L0szU\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 11 Dec 2024 10:47:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"statusCode\": 404,\n    \"message\": \"Ticket not found or does not belong to the specified bus.\"\n}"
+						}
+					]
+				}
+			],
+			"description": "All authenticated users are allowed to access the User Api's"
+		}
+	]
+}
