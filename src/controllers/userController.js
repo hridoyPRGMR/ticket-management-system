@@ -57,8 +57,24 @@ const login = async (req, res, next) => {
   }
 };
 
+const logout = async (req, res, next) => {
+  try {
+    // console.log('User logged out:', req.user._id);
 
-//user functionality
+    // HttpOnly flag: Prevents client-side JavaScript from accessing the cookie.
+    // Secure flag: Ensures the cookie is only sent over HTTPS.
+    // SameSite attribute: Controls cookie sharing between different websites.
+    res.clearCookie('jwtToken', { httpOnly: true, secure: true, sameSite: 'strict' });
+    res.status(200).json({success:true, message: 'Logged out successfully' });
+
+  } catch (error) {
+    console.error('Logout failed:', error);
+    next(error); 
+  }
+};
+
+
+//user functionality api's
 const getPaginatedBuses = async (req,res,next) =>{
 
   const {page = 1, limit=10} = req.query;
@@ -102,4 +118,4 @@ const purchaseTickets = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login, getPaginatedBuses, getTickets, purchaseTickets };
+module.exports = { register, login, logout, getPaginatedBuses, getTickets, purchaseTickets };

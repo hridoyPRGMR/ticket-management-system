@@ -95,6 +95,7 @@ The project leverages the following technologies:
 |--------|-----------------------|-----------------------------------|
 | POST   | `/auth/register`      | Register a new user               |
 | POST   | `/auth/login`         | Log in a user                     |
+| POST   | `/auth/logout`        | Logout a user                     |
 | POST   | `/admin/bus`          | Add a new bus                     |
 | PUT    | `/admin/bus/:id`      | Update a bus                      |
 | DELETE | `/auth/bus/:id`       | Delete a bus                      |
@@ -123,4 +124,7 @@ Contributions are welcome! If you would like to contribute:
 ---
 
 Thank you for using the Ticket Management System! If you encounter any issues or have suggestions, please open an issue on the [GitHub repository](https://github.com/hridoyPRGMR/ticket-management-system).
+
+## postman documentation
+(https://documenter.getpostman.com/view/40331456/2sAYHwL5Ju)
 
